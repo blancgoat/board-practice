@@ -15,10 +15,22 @@ public class QuestionService {
     }
 
     public Question getQuestion(Long id) {
-        return questionRepository.findById(id).orElseThrow();
+        return questionRepository.findByIdAndIsDelete(id, false);
     }
 
-    public void createQuestion(QuestionDto.WriteReq req) {
-        questionRepository.save(req.toEntity());
+    public Question createQuestion(QuestionDto.WritePostReq req) {
+        return questionRepository.save(req.toEntity());
+    }
+
+    public Long updateQuestion(Long id, QuestionDto.WritePatchReq req) {
+        Question question = questionRepository.findById(id).orElseThrow();
+        question.updateTitleAndDescription(req.getTitle(), req.getDescription());
+
+        return id;
+    }
+
+    public void deleteQuestion(Long id) {
+        Question question = questionRepository.findById(id).orElseThrow();
+        question.updateIsDeleteToTrue();
     }
 }

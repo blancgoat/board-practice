@@ -11,13 +11,13 @@ public class QuestionDto {
 
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Getter
-    public static class WriteReq {
+    public static class WritePostReq {
         private Long memberId;
         private String title;
         private String description;
 
         @Builder
-        WriteReq(Long memberId, String title, String description) {
+        WritePostReq(Long memberId, String title, String description) {
             this.memberId = memberId;
             this.title = title;
             this.description = description;
@@ -26,6 +26,26 @@ public class QuestionDto {
         public Question toEntity() {
             return Question.generalQuestionBuilder()
                     .memberId(memberId)
+                    .title(title)
+                    .description(description)
+                    .build();
+        }
+    }
+
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @Getter
+    public static class WritePatchReq {
+        private String title;
+        private String description;
+
+        @Builder
+        WritePatchReq(String title, String description) {
+            this.title = title;
+            this.description = description;
+        }
+
+        public Question toEntity() {
+            return Question.generalQuestionBuilder()
                     .title(title)
                     .description(description)
                     .build();

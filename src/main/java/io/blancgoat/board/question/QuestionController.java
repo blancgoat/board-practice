@@ -14,18 +14,30 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping
-    public Iterable<Question> questions() {
+    public Iterable<Question> getQuestions() {
         return questionService.getQuestions();
     }
 
     @GetMapping("/{id}")
-    public Question question(@PathVariable Long id) {
+    public Question getQuestion(@PathVariable Long id) {
         return questionService.getQuestion(id);
     }
 
     @Transactional
     @PostMapping
-    public void question(@RequestBody QuestionDto.WriteReq req) {
-        questionService.createQuestion(req);
+    public Question postQuestion(@RequestBody QuestionDto.WritePostReq req) {
+        return questionService.createQuestion(req);
+    }
+
+    @Transactional
+    @PatchMapping("/{id}")
+    public void patchQuestion(@PathVariable Long id, @RequestBody QuestionDto.WritePatchReq req) {
+        questionService.updateQuestion(id, req);
+    }
+
+    @Transactional
+    @DeleteMapping("/{id}")
+    public void deleteQuestion(@PathVariable Long id) {
+        questionService.deleteQuestion(id);
     }
 }

@@ -42,4 +42,13 @@ public class Question extends AbstractAuditEntity {
         this.title = title;
         this.description = description;
     }
+
+    public void updateTitleAndDescription(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public void updateIsDeleteToTrue() {
+        this.isDelete = true;
+    }
 }
