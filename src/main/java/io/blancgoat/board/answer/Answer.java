@@ -1,6 +1,7 @@
 package io.blancgoat.board.answer;
 
 import io.blancgoat.board.common.AbstractAuditEntity;
+import io.blancgoat.board.question.Question;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,11 +26,9 @@ public class Answer extends AbstractAuditEntity {
     @Column(name = "member_id", nullable = false)
     private Long memberId;
 
-    @Column(name = "question_id", nullable = false)
-    private Long questionId;
-
-    @Column(nullable = false)
-    private String title;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id", nullable = false)
+    private Question question;
 
     @Column(nullable = false)
     private String description;
@@ -38,15 +37,13 @@ public class Answer extends AbstractAuditEntity {
     private int likeCount = 0;
 
     @Builder(builderMethodName = "generalAnswerBuilder")
-    public Answer(Long memberId, Long questionId, String title, String description) {
+    public Answer(Long memberId, Question question, String title, String description) {
         this.memberId = memberId;
-        this.questionId = questionId;
-        this.title = title;
+        this.question = question;
         this.description = description;
     }
 
     public void updateTitleAndDescription(String title, String description) {
-        this.title = title;
         this.description = description;
     }
 
